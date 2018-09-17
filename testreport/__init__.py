@@ -44,7 +44,7 @@ class TestReport(TestCase):
         super(TestReport, self).__init__(*args, **kwargs)
 
     def generate_report(self):
-        from report import  report2Csv, report2Md, report2HTML, report2tex
+        from report import  report2Csv, report2Md, report2HTML, report2tex, report2PDF
         print "Report for " + str(self.__test_case__)
         if self.MD_DIR:
             report2Md(self.__report_info__, self.MD_DIR, testsuite=self.__class__.__name__)
@@ -53,7 +53,7 @@ class TestReport(TestCase):
         if self.TEX_DIR:
             report2tex(self.__report_info__, self.HTML_DIR, testsuite=self.__class__.__name__)
         if self.PDF_DIR:
-            pass
+            report2PDF(self.__report_info__, self.HTML_DIR, testsuite=self.__class__.__name__)
 
         if self.CSV_DIR:
             report2Csv(self.__report_info__, self.CSV_DIR)
@@ -87,6 +87,7 @@ class TestTest(TestReport):
     MD_DIR = True
     HTML_DIR = True
     TEX_DIR = True
+    PDF_DIR = True
     def testCase(self):
         self.title("umd")
         self.explanation("what ever")

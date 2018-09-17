@@ -208,11 +208,20 @@ def report2tex(sequence, directory, **kwargs):
 
 
 def report2PDF(sequence, directory, **kwargs):
+    try:
+        from commands import getstatusoutput
+    except ImportError: # Python 3
+        from subprocess import getstatusoutput
     texfile = report2tex(sequence, directory, **kwargs)
     directory = create_directory(directory, **kwargs)
     title = get_title(sequence)
     filename = os.path.join(directory, get_filename(title, ".pdf"))
-
+    if not os.path.exists(getstatusoutput("which pdflatex")[1]):
+        raise Exception("Please ensure pdflatex is installed")
+    sts, ret = getstatusoutput("cd {1} && pdflatex  -shell-escape  -halt-on-error {0}" .format(
+        texfile, directory))
+    if sts !=0:
+        raise Exception("Latex error: {0}".format(ret))
     return filename
 
 
