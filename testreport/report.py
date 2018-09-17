@@ -130,12 +130,13 @@ p {
                             text(entry[1])
                         doc.stag("br")
                     elif entry[0] == CODE:
+                        doc.stag("br")
                         with tag("div", **{"class":"code"}):
                             with tag("code"):
                                 for t in entry[1].split("\n"):
                                     text(t)
                                     doc.stag("br")
-
+                        doc.stag("br")
                     else:
                         raise Exception("Invalid entry!")
 
@@ -152,10 +153,57 @@ p {
 
 
 def report2tex(sequence, directory, **kwargs):
+    language = kwargs.get("language") or "C"
     directory = create_directory(directory, **kwargs)
     title = get_title(sequence)
-    entries = get_entries()
+    entries = get_entries(sequence)
+    tex_start = """\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{minted}
+
+\usepackage{tcolorbox}% http://ctan.org/pkg/tcolorbox
+% https://tex.stackexchange.com/questions/66154/how-to-construct-a-coloured-box-with-rounded-corners
+\definecolor{mycolor}{rgb}{0.698, 0.335, 0.398}% Rule colour
+
+
+\\newcommand{\mybox}[1]{%
+  \setbox0=\hbox{#1}%
+  \\begin{tcolorbox}[colframe=mycolor,boxrule=0.5pt,arc=4pt,
+        left=6pt,right=6pt,top=6pt,bottom=6pt,boxsep=0pt,width=300pt]
+    #1
+  \end{tcolorbox}
+  }
+
+\\title{TITLE}
+
+\\begin{document}
+\maketitle
+
+""".replace("TITLE", title.title())
     filename = os.path.join(directory, get_filename(title, ".tex"))
+    tex_end = "\end{document}"
+    with open(filename, "w") as fp:
+        fp.write(tex_start)
+        fp.write("\n")
+        for entry in entries:
+            if entry[0] == EXPLANATION:
+                fp.write(entry[1])
+                fp.write("\n\n")
+            elif entry[0] == TIP:
+                fp.write("\mybox{" + entry[1] + "}")
+                fp.write("\n\n")
+            elif entry[0] == CODE:
+                fp.write("\\begin{minted}{" + language + "}\n" + entry[1] + "\n\end{minted}\n" )
+                fp.write("\n```\n")
+            else:
+                raise Exception("Invalid entry!")
+        fp.write(tex_end)
+        fp.write("\n")
     return filename
 
 
