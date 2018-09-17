@@ -58,17 +58,6 @@ class TestReport(TestCase):
         if self.CSV_DIR:
             report2Csv(self.__report_info__, self.CSV_DIR)
 
-    # def run(self, result=None):
-    #
-    #     ret = super(TestReport, self).run(result)
-    #
-    #     return ret
-    #
-    # def setUp(self):
-    #     self.__current_test_case__ = [(START,)]
-    #     super(TestReport, self).setUp()
-    #
-
     def title(self, title):
         self.__report_info__.append((TITLE, title))
 
@@ -88,6 +77,7 @@ class TestTest(TestReport):
     HTML_DIR = True
     TEX_DIR = True
     PDF_DIR = True
+
     def testCase(self):
         self.title("umd")
         self.explanation("what ever")
@@ -101,6 +91,7 @@ class TestTest(TestReport):
 
     def tearDown(self):
         print "########### TEARDOWN"
+
 
 if __name__ == '__main__':
     import unittest
