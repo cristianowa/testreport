@@ -39,17 +39,16 @@ class TestReport(TestCase):
         super(TestReport, self).__init__(*args, **kwargs)
 
     def generate_report(self):
+        from report import  report2Csv, report2Md
         print "Report for " + str(self.__test_case__)
         if self.MD_DIR:
-            from report2md import Report2Md
-            Report2Md(self.__report_info__, self.MD_DIR)
+            report2Md(self.__report_info__, self.MD_DIR, testsuite=self.__class__.__name__)
         if self.TEX_DIR:
             pass
         if self.PDF_DIR:
             pass
         if self.CSV_DIR:
-            from report2csv import Report2Csv
-            Report2Csv(self.__report_info__, self.CSV_DIR)
+            report2Csv(self.__report_info__, self.CSV_DIR)
 
     # def run(self, result=None):
     #
@@ -76,8 +75,8 @@ class TestReport(TestCase):
 
 
 class TestTest(TestReport):
-    CSV_DIR = "/tmp/"
-    MD_DIR = "/tmp/"
+    CSV_DIR = "."
+    MD_DIR = True
     def testCase(self):
         self.title("umd")
         self.explanation("what ever")
