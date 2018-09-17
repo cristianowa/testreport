@@ -2,7 +2,16 @@
 import os
 from sections import *
 
-def Report2Md(sequence, directory, separator=";"):
+def Report2Md(sequence, directory, testsuite=""):
+    if isinstance(directory, bool):
+        directory = os.path.join(os.getcwd(), testsuite.lower())
+        try:
+            os.mkdir(directory)
+        except OSError as e:
+            if e.errno != 17:
+                raise e
+
+
     title = filter(lambda x: x[0] == TITLE, sequence)
     if len(title) != 1:
         raise Exception("Test case must provide a single title")
