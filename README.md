@@ -1,6 +1,6 @@
-# Unit Report
+# Test Report
 
-Unit Report is an extension for unittest which generates reports based on test cases execution
+Test Report is an extension for unittest which generates reports based on test cases execution
 
 
 
@@ -14,7 +14,15 @@ Moreover, you only exposes the features you have tests written for, hence improv
 
 ## Getting started
 
-TODO
+The follow snippet shows how to replace the TestCase with TestReport:
+```python
+from testreport import TestReport
+
+class TestSuite(TestReport):
+    CSV_DIR = "/tmp/"
+    
+
+```
 
 ## How to use it
 
