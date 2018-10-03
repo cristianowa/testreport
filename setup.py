@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 setup(
         name='testreport',
         packages=find_packages(),
-        version='0.2',
+        version='0.3',
         description='Test Report - Generate reports based on test cases',
         author='Cristiano W. Araujo',
         author_email='cristianowerneraraujo@gmail.com',

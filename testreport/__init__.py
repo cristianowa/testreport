@@ -51,9 +51,9 @@ class TestReport(TestCase):
         if self.HTML_DIR:
             report2HTML(self.__report_info__, self.HTML_DIR, testsuite=self.__class__.__name__)
         if self.TEX_DIR:
-            report2tex(self.__report_info__, self.HTML_DIR, testsuite=self.__class__.__name__)
+            report2tex(self.__report_info__, self.TEX_DIR, testsuite=self.__class__.__name__)
         if self.PDF_DIR:
-            report2PDF(self.__report_info__, self.HTML_DIR, testsuite=self.__class__.__name__)
+            report2PDF(self.__report_info__, self.PDF_DIR, testsuite=self.__class__.__name__)
 
         if self.CSV_DIR:
             report2Csv(self.__report_info__, self.CSV_DIR)
